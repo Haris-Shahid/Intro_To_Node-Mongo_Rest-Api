@@ -28,6 +28,16 @@ app.get('/', function(req, res) {
     res.send(ingredients)
 })
 
+app.post('/', function(req, res) {
+    var ingredient = req.body ;
+    if(!ingredient || ingredient.text === ""){
+        res.status(500).send({error: "Please type something"})
+    }else{
+        ingredients.push(ingredient);
+        res.status(200).send(ingredients)
+    }
+})
+
 app.get('/api', function(req, res) {
     res.send('yahoo! api is working')
 })
