@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Haris-Shahid/Intro_To_Node-Mongo_Rest-Api#readme",
   "dependencies": {
+    "body-parser": "^1.18.2",
     "express": "^4.16.3"
   }
 }
