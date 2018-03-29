@@ -44,14 +44,20 @@ app.put('/ingredients/:ingredientId', function (req, res) {
     if (!newText || newText === "") {
         res.status(500).send({ error: "Please write some ingredient" })
     } else {
+        var objFound = false;
         for (var i = 0; i < ingredients.length; i++) {
             var ing = ingredients[i];
             if (ing.id === req.params.ingredientId) {
                 ing.text = newText;
+                objFound = true;
                 break;
             }
         }
-        res.send(ingredients);
+        if(!objFound){
+            res.status(500).send({error: "Error id not fond"})
+        }else{
+            res.send(ingredients);
+        }
     }
 })
 
