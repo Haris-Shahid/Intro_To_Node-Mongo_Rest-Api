@@ -33,3 +33,13 @@ and if you want to find only one than type
 
 and if you want to update some specific product than
 **db.products.update({"productName" : "Red Car"}, {$set: {"Price" : 100000}})**
+
+and if you want to delete some specific product than
+**db.products.remove({ "Priceahndfl" : "100k"})**
+
+and if you want to delete only one product than
+**db.products.remove({ "Priceahndfl" : "100k"}, {justOne: true})**
+
+and here are the link of the docs
+[Press here for mongo docs](https://docs.mongodb.com/getting-started/shell/insert/)
+
