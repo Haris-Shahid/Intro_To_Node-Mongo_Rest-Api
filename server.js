@@ -26,17 +26,55 @@ app.post('/product', function (req, res) {
 });
 
 app.get('/product', function (req, res) {
-    // console.log(1) it is an asynchronous
+    // it is an asynchronous
     Product.find({}, function (err, products) {
-        // console.log(2)
         if (err) {
             res.status(500).send({ error: 'Could not fetch Products' });
         } else {
             res.send(products);
         }
     })
-    // console.log(3)
 });
+
+app.post('/wishlist', function (req, res) {
+    var wishList = new WishList();
+    wishList.title = req.body.title;
+    wishList.save(function (err, newWishlist) {
+        if (err) {
+            res.status(500).send({ error: "Could not create wishList" });
+        } else {
+            res.send(newWishlist);
+        }
+    })
+});
+
+app.get('/wishlist', function (req, res) {
+    WishList.find({}).populate({path: 'products', model: 'Product'}).exec(function(err, wishLists){
+        if (err) {
+            res.status(500).send({ error: "Could not fetch wishList" });
+        } else {
+            res.status(200).send(wishLists);
+        }
+    })
+});
+
+app.put('/wishlist/product/add', function(req, res){
+    Product.findOne({_id: req.body.productId}, function(err, product){
+        if (err) {
+            res.status(500).send({ error: "Could not add product in wishlist" });
+        } else {
+            WishList.update({_id: req.body.wishListId}, {$addToSet: {
+                products: product._id
+            }}, function(err, wishlist){
+                if(err){
+                    res.status(500).send({ error: "Could not add item in wishlist" });
+                }else{
+                    res.send("Successfully added in WishList")
+                }
+            })
+        }
+    })
+})
 
 app.listen(3000, function () {
     console.log('first api start running on port 3000!')
